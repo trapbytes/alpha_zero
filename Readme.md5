@@ -1,0 +1,89 @@
+
+=========================
+Alpha Zero Implementation
+=========================
+
+
+
+## Note
+
+Follows the alpha-zero paper where we use self play to generate training data, using it to optimize the model.
+
+Inspired by Robert Forster implementaion. 
+
+
+## Requirements
+
+* Python Packages
+    tables
+    tqdm==4.65.0
+    numpy==1.24.2
+    pandas==2.0.0
+    h5py==3.1.0
+    scikit-learn
+    torch
+
+
+### Docker Image Build 
+
+1. Execute `docker build` with the suppled Docker file from a desired directory
+   ```sh
+      docker image build --force-rm --compress -t alphazero:1.0.1 .
+   ```
+
+2. Then execute to dump into a bash shell within the container
+   ```sh
+      docker run -it --rm --name alpha_zero_dev \
+        -v /etc/localtime:/etc/localtime:ro \
+        -v "$PWD/workdir:/workdir:rw" \
+        alphazero
+   ```
+
+
+### Tool Execution
+
+1. Generate Model
+  A. tictactoe model
+     > alphazero --train-model --model-game TicTacToe
+
+  B. ConnectFour model (Parallel)
+     > alphazero --train-model --model-game ConnectFour
+
+
+2. Test Model
+  A. > alphazero --test-model --model-game TicTacToe
+  B. > alphazero --test-model --model-game TicTacToe
+
+
+3. Test Model MCTS only
+  A. > alphazero --test-untrained-model --model-game TicTacToe
+  B. > alphazero --test-untrained-model --model-game ConnectFour
+
+
+4. Human Play Only (testing)
+   A. > alphazero --human-only --model-game TicTacToe
+   B. > alphazero --human-only --model-game ConnectFour
+
+
+
+## Components
+
+1. Monte Carlo Tree Search
+   https://en.wikipedia.org/wiki/Monte_Carlo_tree_search#Principle_of_operation
+
+2. Pytorch Model
+
+   a. startBlock = nn.Sequential( .. ) Layer
+
+   b. backBone = nn.ModuleList( <ResBlocks> * num_resBlocks )  Layer
+      * Where ``ResBlocks`` contain
+        nn.Conv2d( .. )
+        nn.BatchNorm2d( .. )
+        nn.Conv2d( .. )
+        nn.BatchNorm2d( .. )
+
+   c. policyHead = nn.Sequential( .. ) Layer 
+
+   d. valueHead = nn.Sequential( .. ) Layer
+  
+
