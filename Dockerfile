@@ -3,11 +3,6 @@
 ARG UBUNTU_VERSION=20.04
 FROM ubuntu:${UBUNTU_VERSION}
 
-# Our labels
-#LABEL validate_pgp_server.release="1.0.1" \
-#      validate_pgp_server.release-date="2023-02-23" \
-#      validate_pgp_server.release-type="production" \
-#      validate_pgp_server.description="Validate pgp encrypted data Server"
 #
 ## set/get locales
 RUN set -eux; \
@@ -46,10 +41,7 @@ RUN set -eux; \
 	gcc \
 	g++ \
 	pkg-config \
-#	clang \
-#	llvm \
 	pkg-config \
-#	nettle-dev \
 	python3 \
 	python3-dev \
 	python3-pip \
